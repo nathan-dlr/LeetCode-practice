@@ -1,6 +1,6 @@
 class Solution:
     def maxVowels(self, s: str, k: int) -> int:
-        vowels = "aeiou"
+        vowels = ['a', 'e', 'i', 'o', 'u']
         max_vowels = 0
         substr = []
 
