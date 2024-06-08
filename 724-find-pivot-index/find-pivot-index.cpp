@@ -17,12 +17,12 @@ public:
         j = 1;
         for (int k = 0; k < nums.size(); k++) {
             if (k == 0) {
-                if (right_sum[j] == 0) {
+                if (!right_sum[j]) {
                     return 0;
                 }
             }
             else if (k == nums.size() - 1) {
-                if (left_sum[i] == 0) {
+                if (!left_sum[i]) {
                     return nums.size() - 1;
                 }
             }
