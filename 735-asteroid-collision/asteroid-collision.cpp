@@ -11,25 +11,24 @@ public:
                     result.push_back(asteroids[i]);
                 }
                 else {
-                    bool cond = true;
-                    while (cond)
+                    while (true)
                         if (result.empty()) {
                             result.push_back(asteroids[i]);
-                            cond = false;
+                            break;
                         }
                         else if (result.back() < 0) {
                             result.push_back(asteroids[i]);
-                            cond = false; 
+                            break;
                         }
                         else if (abs(result.back()) < abs(asteroids[i])) {
                             result.pop_back();
                         }
                         else if (abs(result.back()) == abs(asteroids[i])) {
                             result.pop_back();
-                            cond = false;
+                            break;
                         }
                         else {
-                            cond = false;
+                            break;
                         }
                 }
             }
