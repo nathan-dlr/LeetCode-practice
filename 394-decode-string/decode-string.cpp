@@ -6,7 +6,6 @@ public:
         string temp;
         int open_brackets = 0;
         int closed_brackets = 0;
-        stack<string> substrings;
         stack<int> nums;
         bool mul_digs = false;
         int curr_num = 0;
@@ -58,14 +57,8 @@ public:
                     curr_num--;
                 }
                 temp.clear();
-                if (substrings.empty()) {
-                    result += substr;
-                    substr.clear();
-                }
-                else {
-                    substr = substrings.top() + substr;
-                    substrings.pop();
-                }
+                result += substr;
+                substr.clear();
             }
             else {
                 mul_digs = false;
