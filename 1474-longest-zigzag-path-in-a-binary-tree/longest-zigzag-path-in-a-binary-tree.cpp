@@ -21,9 +21,11 @@ public:
         count++;
         if (dir) {
             findDepth(root->right, 0, count);
+            findDepth(root->left, 1, 1);
         }
         else {
             findDepth(root->left, 1, count);
+            findDepth(root->right, 0, 1);
         }
     }
     int longestZigZag(TreeNode* root) {
@@ -32,8 +34,6 @@ public:
         }
         findDepth(root, 0);
         findDepth(root, 1);
-        longestZigZag(root->left);
-        longestZigZag(root->right);
         return max;
 
     }
