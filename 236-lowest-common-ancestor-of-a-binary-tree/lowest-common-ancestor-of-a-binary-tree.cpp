@@ -9,40 +9,29 @@
  */
 class Solution {
 public:
-    bool searchSide(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (root == nullptr) {
-            return false;
-        }
-        else {
-            if (root == p || root == q) {
-                return true;
-            }
-        }
-        if (searchSide(root->left, p, q) || searchSide(root->right, p, q)) {
-            return true;
-        }
-        return false;
-        
-    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        bool search_left;
-        bool search_right;
+        TreeNode* search_left;
+        TreeNode* search_right;
+        if (!root) {
+            return nullptr;
+        }
         if (root == p || root == q) {
             return root;
         }
         else {
-            search_left = searchSide(root->left, p, q);
-            search_right = searchSide(root->right, p, q);
-            if ((search_left && search_right) || ((search_left || search_right) && (root == p || root==q))) {
+            search_left = lowestCommonAncestor(root->left, p, q);
+            search_right = lowestCommonAncestor(root->right, p, q);
+            if (search_left && search_right) {
                 return root;
             }
-
-        }
-        if (search_left && !search_right) {
-            return lowestCommonAncestor(root->left, p, q);
-        }
-        else {
-            return lowestCommonAncestor(root->right, p, q);
+            else {
+                if (search_left) {
+                    return search_left;
+                }
+                else {
+                    return search_right;
+                }
+            }
         }
     }
 };
