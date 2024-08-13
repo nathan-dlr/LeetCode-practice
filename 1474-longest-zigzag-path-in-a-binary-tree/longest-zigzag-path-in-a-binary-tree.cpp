@@ -12,30 +12,26 @@
 class Solution {
 public:
     int max = 0;
-    void leftZag(TreeNode* root, int count = 0) {
+    void findDepth(TreeNode* root, int dir, int count = 0) {
         if (root == nullptr) {
             count--;
             max = count > max ? count : max;
             return;
         }
         count++;
-        rightZag(root->right, count);
-    }
-    void rightZag(TreeNode* root, int count = 0) {
-        if (root == nullptr) {
-            count--;
-            max = count > max ? count : max;
-            return;
+        if (dir) {
+            findDepth(root->right, 0, count);
         }
-        count++;
-        leftZag(root->left, count);
+        else {
+            findDepth(root->left, 1, count);
+        }
     }
     int longestZigZag(TreeNode* root) {
         if (root == nullptr) {
             return 0;
         }
-        leftZag(root);
-        rightZag(root);
+        findDepth(root, 0);
+        findDepth(root, 1);
         longestZigZag(root->left);
         longestZigZag(root->right);
         return max;
