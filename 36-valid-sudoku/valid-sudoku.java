@@ -9,8 +9,8 @@ class Solution {
                 if (current == '.') {
                     continue;
                 }
-                short num = (short)(0x01 << ((byte) current - 0x30));
-                byte box_index = (byte) (((row / 3) * 3) + (col / 3));
+                int num = 0x01 << (current - 0x30);
+                int box_index = ((row / 3) * 3) + (col / 3);
                 if ((boxes[box_index] & num) != 0) {
                     return false;
                 }
