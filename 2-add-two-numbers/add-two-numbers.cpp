@@ -13,33 +13,21 @@ public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode* retList = new ListNode();
         ListNode* retWriter = retList;
-        bool overflow = false;
-        while (l1 || l2 || overflow) {
-            int val = 0; 
+        uint8_t carry = 0;
+        while (l1 || l2 || carry) {
+            uint8_t sum = carry; 
             if (l1) {
-                val += l1->val;
+                sum += l1->val;
                 l1 = l1->next;
             }
             if (l2) {
-                val += l2->val;
+                sum += l2->val;
                 l2 = l2->next;
             }
-            if (overflow) {
-                val++;
-            }
-            if (val > 9) {
-                overflow = true;
-                val -= 10;
-            }
-            else {
-                overflow = false;
-            }
-            retWriter->val = val;
-            if (l1 || l2 || overflow) {
-                retWriter->next = new ListNode();
-                retWriter = retWriter->next;
-            }
+            carry = sum / 10;
+            retWriter->next = new ListNode(sum % 10);
+            retWriter = retWriter->next;
         }
-        return retList;
+        return retList->next;
     }
 };
