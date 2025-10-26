@@ -13,9 +13,9 @@ public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode* retList = new ListNode();
         ListNode* retWriter = retList;
-        uint8_t carry = 0;
+        int carry = 0;
         while (l1 || l2 || carry) {
-            uint8_t sum = carry; 
+            int sum = carry; 
             if (l1) {
                 sum += l1->val;
                 l1 = l1->next;
