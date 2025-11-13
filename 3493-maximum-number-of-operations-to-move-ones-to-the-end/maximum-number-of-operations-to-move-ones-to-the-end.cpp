@@ -3,16 +3,20 @@ public:
     int maxOperations(string s) {
         int numOnes = 0;
         int ret = 0;
+        bool prevZero = false;
         for (int i = 0; i < s.size(); i ++) {
             if (s[i] == '0') {
-                while ((i + 1) < s.size() && s[i+1] == '0') {
-                    i++;
-                }
+                prevZero = true;
+                continue;
+            }
+            if (prevZero) {
                 ret += numOnes;
             }
-            else {
-                numOnes++;
-            }
+            numOnes++;
+            prevZero = false;
+        }
+        if (prevZero) {
+            ret += numOnes;
         }
         return ret;
     }
