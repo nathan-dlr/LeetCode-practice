@@ -12,8 +12,12 @@ public:
                 onesInSubStr = 0;
                 isSubStr = false;
             }
-            else if (c == '1') {
-                total = (total + ++onesInSubStr) % 1000000007;
+            else if (c == '1' && isSubStr) {
+                onesInSubStr++;
+                total = (total + onesInSubStr) % 1000000007;
+            }
+            else if (c == '1' && !isSubStr) {
+                total += ++onesInSubStr;
                 isSubStr = true;
             }
         }
