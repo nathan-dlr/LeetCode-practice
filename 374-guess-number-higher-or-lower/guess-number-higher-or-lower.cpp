@@ -11,17 +11,17 @@ class Solution {
 public:
     int guessNumber(int n) {
         int floor = 0;
-        long ceiling = n;
+        int ceiling = n;
         int num = n / 2;
         int result = guess(num);
         while (result) {
             if (result < 0) {
                 ceiling = num - 1;
-                num = (ceiling + floor) / 2;
+                num = floor + (ceiling - floor) / 2;
             }
             else {
                 floor = num + 1;
-                num = (ceiling + floor) / 2;
+                num = floor + (ceiling - floor) / 2;
             }
             result = guess(num);
         }
