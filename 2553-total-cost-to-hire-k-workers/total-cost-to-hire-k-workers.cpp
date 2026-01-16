@@ -1,45 +1,46 @@
 class Solution {
 public:
+    struct worker {
+        int cost;
+        int idx;
+        bool side;
+    };
     struct compareCost {
-        bool operator() (const std::pair<int, int> a, std::pair<int, int> b) {
-            if (a.first != b.first) {
-                return a.first > b.first;
+        bool operator() (const worker a, worker b) {
+            if (a.cost != b.cost) {
+                return a.cost > b.cost;
             }
-            return a.second > b.second;
+            return a.idx > b.idx;
         }
     };
     long long totalCost(vector<int>& costs, int k, int candidates) {
-        unordered_map<int, bool> idxToSide;
-        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, compareCost> heap;
+        std::priority_queue<worker, std::vector<worker>, compareCost> heap;
         int leftIdx;
         //get first candidates
         for (leftIdx = 0; leftIdx < candidates && leftIdx < costs.size(); leftIdx++) {
-            heap.push({costs[leftIdx], leftIdx});
-            idxToSide[leftIdx] = false;
+            heap.push({costs[leftIdx], leftIdx, false});
         }
         leftIdx--;
         //get last candidates if available
         int rightIdx = max(leftIdx + 1, (int) costs.size() - candidates);
         for (int i = rightIdx; i < costs.size(); i++) {
-            heap.push({costs[i], i});
-            idxToSide[i] = true;
+            heap.push({costs[i], i, true});
         }
         //pop k cheapest 
         long cost = 0;
         for (int i = 0; i < k; i++) {
-            std::pair<int, int> elem = heap.top();
-            cost += elem.first;
-            heap.pop(); 
+            worker elem = heap.top();
+            cost += elem.cost;
+            heap.pop();
             //cout << "<" << elem.first << "," << elem.second << ">" << endl;
-            if ((leftIdx < rightIdx - 1) && !idxToSide[elem.second]) {
+            bool moreToAdd = leftIdx < rightIdx - 1;
+            if (moreToAdd && !elem.side) {
                 leftIdx++;
-                heap.push({costs[leftIdx], leftIdx});
-                idxToSide[leftIdx] = false;
+                heap.push({costs[leftIdx], leftIdx, false});
             }
-            else if ((leftIdx < rightIdx - 1) && idxToSide[elem.second]) {
+            else if (moreToAdd && elem.side) {
                 rightIdx--;
-                heap.push({costs[rightIdx], rightIdx});
-                idxToSide[rightIdx] = true;
+                heap.push({costs[rightIdx], rightIdx, true});
             }
         }
         return cost;
