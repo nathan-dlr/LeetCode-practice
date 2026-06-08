@@ -34,8 +34,6 @@ public:
                 l = mid + 1;
             }
         }
-        cout << partition1 << endl;
-        cout << partition2 << endl;
         if (size % 2) {
             return std::min(rightOf(smallVec, partition1), rightOf(largeVec, partition2));
         }
