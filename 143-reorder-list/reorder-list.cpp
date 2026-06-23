@@ -21,8 +21,10 @@ public:
         }
 
         // reverse second half
-        ListNode* prev = nullptr;
         ListNode* curr = slow->next;
+        slow->next = nullptr; // cut list in half
+        
+        ListNode* prev = nullptr;
         ListNode* next;
         while (curr) {
             next = curr->next;
@@ -41,6 +43,5 @@ public:
             head = reorder->next;
             reorder = next;
         }
-        head->next = nullptr;
     }
 };
