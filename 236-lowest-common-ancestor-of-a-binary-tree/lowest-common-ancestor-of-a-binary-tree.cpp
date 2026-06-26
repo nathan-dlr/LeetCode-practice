@@ -9,29 +9,53 @@
  */
 class Solution {
 public:
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        TreeNode* search_left;
-        TreeNode* search_right;
+    bool findNode(TreeNode* root, std::stack<TreeNode*>& path, int nodeVal) {
         if (!root) {
-            return nullptr;
+            return false;
         }
-        if (root == p || root == q) {
-            return root;
+
+        path.push(root);
+        if (root->val == nodeVal) {
+            cout << root->val << endl;
+            return true;
         }
-        else {
-            search_left = lowestCommonAncestor(root->left, p, q);
-            search_right = lowestCommonAncestor(root->right, p, q);
-            if (search_left && search_right) {
-                return root;
+
+        if (findNode(root->right, path, nodeVal)) {
+            cout << root->val << endl;
+            return true;
+        }
+        if (findNode(root->left, path, nodeVal)) {
+            cout << root->val << endl;
+            return true;
+        }
+        path.pop();
+        return false;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        // Using dfs with a stack can gives us a history of the direct path to a node
+        // Use two stacks to store the history of each
+        std::stack<TreeNode*> pathP;
+        std::stack<TreeNode*> pathQ;
+        findNode(root, pathP, p->val);
+        findNode(root, pathQ, q->val);
+
+        // The size of the stack indicates the level of the node
+        std::stack<TreeNode*>& longerPath = pathP.size() > pathQ.size() ? pathP : pathQ;
+        std::stack<TreeNode*>& shorterPath = longerPath == pathP ? pathQ : pathP;
+
+        // Level both stacks
+        while (longerPath.size() != shorterPath.size()) {
+            longerPath.pop();
+        }
+
+        // Observe the path taken at each level, until the path intersects
+        while (!longerPath.empty()) {
+            if (longerPath.top() == shorterPath.top()) {
+                return longerPath.top();
             }
-            else {
-                if (search_left) {
-                    return search_left;
-                }
-                else {
-                    return search_right;
-                }
-            }
+            longerPath.pop();
+            shorterPath.pop();
         }
+        return nullptr;
     }
 };
