@@ -16,16 +16,13 @@ public:
 
         path.push(root);
         if (root->val == nodeVal) {
-            cout << root->val << endl;
             return true;
         }
 
         if (findNode(root->right, path, nodeVal)) {
-            cout << root->val << endl;
             return true;
         }
         if (findNode(root->left, path, nodeVal)) {
-            cout << root->val << endl;
             return true;
         }
         path.pop();
