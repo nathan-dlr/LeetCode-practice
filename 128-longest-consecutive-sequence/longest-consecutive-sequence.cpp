@@ -1,10 +1,8 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        std::set<int> set;
-        for (int num : nums) {
-            set.insert(num);
-        }
+        std::unordered_set<int> set(nums.begin(), nums.end());
+       
 
         int curr = 1;
         int max = 0;
@@ -12,6 +10,11 @@ public:
             int next = *it + 1;
             while (set.contains(next)) {
                 set.erase(next++);
+                curr++;
+            }
+            next = *it - 1;
+            while (set.contains(next)) {
+                set.erase(next--);
                 curr++;
             }
             max = std::max(max, curr);
