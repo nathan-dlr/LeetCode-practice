@@ -1,15 +1,9 @@
 class Solution {
 public:
     vector<int> countBits(int n) {
-        vector<int> res;
+        vector<int> res(n+1);
         for (int i = 0; i <= n; i++) {
-            int num = i;
-            int bits = 0;
-            while (num) {
-                bits += num & 0x01;
-                num = num >> 1;
-            }
-            res.push_back(bits);
+            res[i] = (res[i >> 1] + (i & 1));
         }
         return res;
     }
