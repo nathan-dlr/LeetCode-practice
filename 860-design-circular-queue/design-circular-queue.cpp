@@ -1,58 +1,48 @@
 class MyCircularQueue {
-public:
+private:
     int* arr;
-    int front;
-    int back;
-    int k;
-    MyCircularQueue(int k) : arr(new int[k]), front(-1), back(-1), k(k) {}
+    std::size_t frontIdx;
+    std::size_t backIdx;
+    std::size_t size;
+    std::size_t capacity;
+public:
+    MyCircularQueue(int k) : arr(new int[k]), frontIdx(0), backIdx(0), size(0), capacity(k) {}
     
     bool enQueue(int value) {
         if (isFull()) {
             return false;
         }
-        if (front == -1) front = 0;
-        
-        back = (back + 1) % k;
-        arr[back] = value;
+        arr[backIdx] = value;
+        backIdx = (backIdx + 1) % capacity;
+        size++;
         return true;
-
     }
     
     bool deQueue() {
         if (isEmpty()) {
             return false;
         }
-        if (front == back) {
-            front = -1;
-            back = -1;
-        }
-        else {
-            front = (front + 1) % k;
-        }
+        frontIdx = (frontIdx + 1) % capacity;
+        size--;
         return true;
     }
     
     int Front() {
-        if (isEmpty()) {
-            return -1;
-        }
-        return arr[front];
-        
+        if (isEmpty()) return -1;
+        return arr[frontIdx];
     }
     
     int Rear() {
-        if (isEmpty()) {
-            return -1;
-        }
-        return arr[back];
+        if (isEmpty()) return -1;
+        return arr[(backIdx + capacity - 1) % capacity];
     }
     
     bool isEmpty() {
-        return front == -1;
+        return !size;
     }
     
     bool isFull() {
-        return ((back + 1) % k) == front;
+        return size == capacity;
     }
 };
 
